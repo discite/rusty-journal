@@ -26,7 +26,7 @@ fn collect_tasks(mut file: &File) -> Result<Vec<Task>> {
     let tasks = match serde_json::from_reader(file) {
         Ok(tasks) => tasks,
         Err(e) if e.is_eof() => Vec::new(),
-        Err(e) => Err(e)?,
+        Err(e) => return Err(e.into()),
     };
     file.seek(SeekFrom::Start(0))?; // Rewind the file after.
     Ok(tasks)
